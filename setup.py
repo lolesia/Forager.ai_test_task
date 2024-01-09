@@ -1,8 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='Nasa_open_api',
-    version='0.1.0',
+    name='nasa_open_api',
+    version='0.1',
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
     description='Receive and manage data from two endpoints Nasa Open APi',
     install_requires=open('requirements.txt').read().strip().split('\n'),
 )
