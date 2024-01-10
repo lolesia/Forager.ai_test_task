@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 
-from nasa_api.dto import DateDto
-from nasa_api.geomagnetic_storm_service import GeomagneticStormService
-from nasa_api.nasa_data_service import NasaGetData
-from nasa_api.serializers import ApodDTOSerializer, DateSerializer, GstDTOSerializer
+from nasa_api_service.dto import DateDto
+from nasa_api_service.geomagnetic_storm_service import GeomagneticStormService
+from nasa_api_service.nasa_data_service import NasaGetData
+from nasa_api_service.serializers import ApodDTOSerializer, DateSerializer, GstDTOSerializer
 
 
 class AstronomyPictureNASAView(APIView):

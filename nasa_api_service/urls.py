@@ -1,7 +1,7 @@
 """URL patterns for the NASA API application."""
 from django.urls import path
 
-from nasa_api.views import AstronomyPictureNASAView, GeomagneticStormNASADetailView, GeomagneticStormNASAView
+from nasa_api_service.views import AstronomyPictureNASAView, GeomagneticStormNASADetailView, GeomagneticStormNASAView
 
 urlpatterns = [
     path('picture_of_the_day/', AstronomyPictureNASAView.as_view()),

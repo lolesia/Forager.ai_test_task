@@ -1,7 +1,7 @@
 """Data collection service with Nasa Open API Client."""
 
-from nasa_api.dto import ApodDTO, DateDto, GstDto
-from nasa_api.nasa_client import NasaOpenApi
+from nasa_api_service.dto import ApodDTO, DateDto, GstDto
+from open_api_client.nasa_client import NasaOpenApi
 
 
 class NasaGetData(object):

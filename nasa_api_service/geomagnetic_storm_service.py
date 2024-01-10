@@ -1,5 +1,5 @@
 """service for managing Geomagnetic Storm data."""
-from nasa_api.dto import GstDto
+from nasa_api_service.dto import GstDto
 
 
 class GeomagneticStormService(object):
