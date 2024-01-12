@@ -9,26 +9,44 @@ from open_api_client.base_client import BaseApiClient
 load_dotenv()
 
 
-class NasaOpenApi(BaseApiClient):
+class NasaOpenApiClient(BaseApiClient):
     """Nasa Open API Client."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize NasaOpenApi object."""
-        self.api_key = os.environ.get('NASA_SECRET_KEY')
         self.url = 'https://api.nasa.gov'
+        self.request_parameters = {'api_key': os.environ.get('NASA_SECRET_KEY')}
 
-    def astronomy_picture_of_the_day(self):
-        """Retrieve information about the astronomy picture of the day."""
+
+class AstronomyPictureApiClient(NasaOpenApiClient):
+    """API client for the astronomy picture endpoint."""
+
+    def astronomy_picture_of_the_day(self) -> dict:
+        """
+        Retrieve information about the astronomy picture of the day.
+
+        You can find NASA API Documentation for Astronomy Picture of the Day:
+        https://api.nasa.gov/ in section APOD
+        """
         endpoint = 'planetary/apod'
-        request_parameters = {'api_key': self.api_key}
-        return self.get_request(endpoint, request_parameters)
+        method = 'GET'
+        return self.make_request(method, endpoint, self.request_parameters)
+
+
+class GeomagneticStormApiClient(NasaOpenApiClient):
+    """API client for the geomagnetic storm endpoint."""
 
     def geomagnetic_storm(self, date_dto: DateDto) -> dict:
-        """Retrieve information about the geomagnetic storm."""
+        """
+        Retrieve information about the geomagnetic storm.
+
+        You can find NASA API Documentation for Astronomy Picture of the Day:
+        https://api.nasa.gov/ in section DONKI/Geomagnetic Storm (GST)
+        """
         endpoint = 'DONKI/GST'
-        request_parameters = {
-            'api_key': self.api_key,
-            'startDate': date_dto.start_date,
-            'endDate': date_dto.end_date,
-        }
-        return self.get_request(endpoint, request_parameters)
+        method = 'GET'
+        self.request_parameters.update({
+            'startDate': str(date_dto.start_date),
+            'endDate': str(date_dto.end_date),
+        })
+        return self.make_request(method, endpoint, self.request_parameters)

@@ -1,10 +1,11 @@
 """Nasa Open Api Views."""
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 
-from nasa_api_service.dto import DateDto
+from nasa_api_service.dto import DateDto, GstDto
 from nasa_api_service.geomagnetic_storm_service import GeomagneticStormService
 from nasa_api_service.nasa_data_service import NasaGetData
 from nasa_api_service.serializers import ApodDTOSerializer, DateSerializer, GstDTOSerializer
@@ -28,7 +29,7 @@ class AstronomyPictureNASAView(APIView):
     - ApodDTOSerializer: Serializer class for converting ApodDTO to JSON.
     """
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         """
         Retrieve information about the current Astronomy Picture of the Day.
 
@@ -67,7 +68,7 @@ class GeomagneticStormNASAView(APIView):
     - saved_gst_data: List to store Geomagnetic Storm data.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructors of GeomagneticStormNASAView class.
 
@@ -77,9 +78,9 @@ class GeomagneticStormNASAView(APIView):
         super().__init__()
         self.nasa_open_api = NasaGetData()
 
-    saved_gst_data = []
+    saved_gst_data: list[GstDto] = []
 
-    def post(self, request):
+    def post(self, request: Request) -> Response:
         """
         Retrieve information about the Geomagnetic Storm for a given date period.
 
@@ -128,7 +129,7 @@ class GeomagneticStormNASADetailView(APIView):
          - saved_gst_data: List to store Geomagnetic Storm data.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructors of GeomagneticStormNASADetailView class .
 
@@ -144,7 +145,7 @@ class GeomagneticStormNASADetailView(APIView):
 
     saved_gst_data = GeomagneticStormNASAView.saved_gst_data
 
-    def get(self, request, pk):
+    def get(self, request: Request, pk: int) -> Response:
         """
         Retrieve a Geomagnetic Storm record by its ID.
 
@@ -162,7 +163,7 @@ class GeomagneticStormNASADetailView(APIView):
 
         return Response(gst_serializer.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk):
+    def put(self, request: Request, pk: int) -> Response:
         """
         Update a Geomagnetic Storm record by its ID.
 
@@ -180,7 +181,7 @@ class GeomagneticStormNASADetailView(APIView):
 
         return Response(gst_serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request, pk):
+    def delete(self, request: Request, pk: int) -> Response:
         """
         Delete a Geomagnetic Storm record by its ID.
 

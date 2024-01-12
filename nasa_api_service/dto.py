@@ -1,4 +1,4 @@
-"""Data Transfer Object for Nasa Open API."""
+"""Data Transfer Object for Nasa Open API service."""
 from dataclasses import dataclass
 from datetime import date
 
