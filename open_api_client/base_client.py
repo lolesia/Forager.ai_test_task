@@ -1,34 +1,22 @@
 """Base API Client."""
-from typing import Optional
-
 import requests
 
+from open_api_client.dto import RequestDTO
 from open_api_client.interface import ApiClientInterface
 
 
 class BaseApiClient(ApiClientInterface):
     """Base API client implementing common functionality for making HTTP requests."""
 
-    def __init__(self, url: str):
-        """Initialize BaseApiClient object."""
-        self.url = url
-
-    def make_request(
-        self,
-        method: str,
-        endpoint: str,
-        request_params: Optional[dict] = None,
-        headers: Optional[dict] = None,
-        body: Optional[dict] = None,
-    ) -> dict:
+    def make_request(self, request_dto: RequestDTO) -> dict:
         """Make an HTTP request to the specified API endpoint."""
-        url = '{0}/{1}'.format(self.url, endpoint)
+        request_url = '{0}/{1}'.format(request_dto.base_url, request_dto.endpoint)
         response = requests.request(
-            method,
-            url,
-            params=request_params,
-            headers=headers,
-            data=body,
+            request_dto.method,
+            request_url,
+            params=request_dto.request_params,
+            headers=request_dto.headers,
+            data=request_dto.body,
             timeout=10,
         )
         response.raise_for_status()
