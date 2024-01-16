@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from open_api_client.dto import RequestDTO
 
 
-class ApiClientInterface(ABC):
+class EndpointHandlerInterface(ABC):
     """Abstract base class for API clients."""
 
     @abstractmethod

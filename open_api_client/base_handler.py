@@ -1,12 +1,12 @@
-"""Base API Client."""
+"""Base endpoint handler."""
 import requests
 
 from open_api_client.dto import RequestDTO
-from open_api_client.interface import ApiClientInterface
+from open_api_client.interface import EndpointHandlerInterface
 
 
-class BaseApiClient(ApiClientInterface):
-    """Base API client implementing common functionality for making HTTP requests."""
+class BaseEndpointHandler(EndpointHandlerInterface):
+    """Base Endpoint Handler implementing common functionality for making HTTP requests."""
 
     def make_request(self, request_dto: RequestDTO) -> dict:
         """Make an HTTP request to the specified API endpoint."""

@@ -2,6 +2,7 @@
 
 from nasa_api_service.dto import ApodDTO, DateDto, GstDto
 from open_api_client.nasa_client import NasaOpenApiClient
+from open_api_client.nasa_handler import AstronomyPictureHandler, GeomagneticStormHandler
 
 
 class NasaGetData(object):
@@ -9,7 +10,7 @@ class NasaGetData(object):
 
     def astronomy_picture_of_the_day_data(self) -> ApodDTO:
         """Retrieve information about the astronomy picture of the day."""
-        nasa_client = NasaOpenApiClient()
+        nasa_client = NasaOpenApiClient(AstronomyPictureHandler())
 
         apod_info = nasa_client.astronomy_picture_of_the_day()
 
@@ -17,7 +18,7 @@ class NasaGetData(object):
 
     def geomagnetic_storm_data(self, date_dto: DateDto) -> list[GstDto]:
         """Retrieve information about geomagnetic storm data."""
-        nasa_client = NasaOpenApiClient()
+        nasa_client = NasaOpenApiClient(GeomagneticStormHandler())
 
         gst_info = nasa_client.geomagnetic_storm(date_dto)
         gst_filter_info = self.filter_geomagnetic_storm_data(gst_info)
