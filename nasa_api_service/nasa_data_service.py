@@ -1,15 +1,24 @@
 """Data collection service with Nasa Open API Client."""
+import os
+
+from dotenv import load_dotenv
 
 from nasa_api_service.dto import ApodDTO, DateDto, IPSDto
 from open_api_client.nasa_client import NasaOpenApiClient
+
+load_dotenv()
 
 
 class NasaGetData(object):
     """Class to collect information from Nasa Open API Client."""
 
+    def __init__(self) -> None:
+        """Initialize NasaGetData object."""
+        self.api_key = os.environ.get('NASA_SECRET_KEY')
+
     def astronomy_picture_of_the_day_data(self) -> ApodDTO:
         """Retrieve information about the astronomy picture of the day."""
-        nasa_client = NasaOpenApiClient()
+        nasa_client = NasaOpenApiClient(api_key=self.api_key)
 
         apod_info = nasa_client.apod.retrieve_endpoint_data()
 
@@ -17,7 +26,7 @@ class NasaGetData(object):
 
     def interplanetary_shock_data(self, date_dto: DateDto) -> list[IPSDto]:
         """Retrieve information about interplanetary shock data."""
-        nasa_client = NasaOpenApiClient()
+        nasa_client = NasaOpenApiClient(api_key=self.api_key)
 
         ips_info = nasa_client.ips.retrieve_endpoint_data(date_dto)
         ips_filter_info = self.filter_interplanetary_shock_data(ips_info)

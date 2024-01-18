@@ -1,20 +1,16 @@
 """Nasa endpoints parameters."""
-import os
-from dotenv import load_dotenv
 from nasa_api_service.dto import DateDto
 from open_api_client.base_handler import BaseEndpointHandler
 from open_api_client.dto import RequestDTO
-
-load_dotenv()
 
 
 class BaseNasaHandler(BaseEndpointHandler):
     """Basic handler for nasa open api endpoints."""
 
-    def __init__(self) -> None:
+    def __init__(self, api_key: str) -> None:
         """Initialize general parameters for making requests to nasa endpoints."""
         self.base_url = 'https://api.nasa.gov'
-        self.request_params = {'api_key': os.environ.get('NASA_SECRET_KEY')}
+        self.request_params = {'api_key': api_key}
 
 
 class AstronomyPictureHandler(BaseNasaHandler):
