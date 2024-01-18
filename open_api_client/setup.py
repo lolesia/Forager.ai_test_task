@@ -8,7 +8,7 @@ setup(
     description='A Python client for accessing NASA Open API endpoints.',
     long_description="""
     This package provides a simple Python client for retrieving information from NASA Open API.
-    It currently supports two endpoints: astronomy_picture_of_the_day and geomagnetic_storm.
+    It currently supports two endpoints: astronomy_picture_of_the_day and interplanetary_shock.
     """,
     author='Shevchenko Alessa',
     author_email='alesyavaskovith@gmail.com',

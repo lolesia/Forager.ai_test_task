@@ -22,10 +22,10 @@ class ApodDTO(object):
 
 
 @dataclass(frozen=True)
-class GstDto(object):
-    """DTO for geomagnetic_storm data."""
+class IPSDto(object):
+    """DTO for interplanetary shock data."""
 
     id: int
-    gst_id: str
+    activity_id: str
+    location: str
     link: str
-    kp_index: str

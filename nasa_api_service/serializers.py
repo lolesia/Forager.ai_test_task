@@ -11,13 +11,13 @@ class ApodDTOSerializer(serializers.Serializer):
     image_link = serializers.URLField()
 
 
-class GstDTOSerializer(serializers.Serializer):
-    """Serializer for geomagnetic storm data."""
+class IPSDTOSerializer(serializers.Serializer):
+    """Serializer for interplanetary shock data."""
 
     id = serializers.IntegerField()
-    gst_id = serializers.CharField()
-    link = serializers.URLField()
-    kp_index = serializers.CharField()
+    activity_id = serializers.CharField()
+    location = serializers.URLField()
+    link = serializers.CharField()
 
 
 class DateSerializer(serializers.Serializer):

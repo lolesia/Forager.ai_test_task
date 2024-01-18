@@ -1,9 +1,11 @@
 """Nasa endpoints parameters."""
 import os
-
+from dotenv import load_dotenv
 from nasa_api_service.dto import DateDto
 from open_api_client.base_handler import BaseEndpointHandler
 from open_api_client.dto import RequestDTO
+
+load_dotenv()
 
 
 class BaseNasaHandler(BaseEndpointHandler):
@@ -29,21 +31,21 @@ class AstronomyPictureHandler(BaseNasaHandler):
             body=None,
         )
 
-    def astronomy_picture_of_the_day(self) -> dict:
+    def retrieve_endpoint_data(self) -> dict:
         """Retrieve information about the astronomy picture of the day from the NASA API."""
         request_dto = self.generate_request_params()
         return self.make_request(request_dto)
 
 
-class GeomagneticStormHandler(BaseNasaHandler):
-    """Handles interactions with the NASA Geomagnetic Storm (GST) API."""
+class InterplanetaryShockHandler(BaseNasaHandler):
+    """Handles interactions with the NASA Interplanetary Shock (IPS) API."""
 
     def generate_request_params(self, date_dto: DateDto) -> RequestDTO:
-        """Generate request parameters for the geomagnetic storm endpoint."""
+        """Generate request parameters for the interplanetary shock endpoint."""
         return RequestDTO(
             method='GET',
             base_url=self.base_url,
-            endpoint='DONKI/GST',
+            endpoint='DONKI/IPS',
             request_params=self.request_params,
             headers=None,
             body={
@@ -52,7 +54,7 @@ class GeomagneticStormHandler(BaseNasaHandler):
             },
         )
 
-    def geomagnetic_storm(self, date_dto: DateDto) -> dict:
-        """Retrieve information about the geomagnetic storm from the NASA API."""
+    def retrieve_endpoint_data(self, date_dto: DateDto) -> dict:
+        """Retrieve information about the interplanetary shock from the NASA API."""
         request_dto = self.generate_request_params(date_dto)
         return self.make_request(request_dto)

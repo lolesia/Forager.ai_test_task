@@ -1,8 +1,7 @@
 """Data collection service with Nasa Open API Client."""
 
-from nasa_api_service.dto import ApodDTO, DateDto, GstDto
+from nasa_api_service.dto import ApodDTO, DateDto, IPSDto
 from open_api_client.nasa_client import NasaOpenApiClient
-from open_api_client.nasa_handler import AstronomyPictureHandler, GeomagneticStormHandler
 
 
 class NasaGetData(object):
@@ -10,46 +9,46 @@ class NasaGetData(object):
 
     def astronomy_picture_of_the_day_data(self) -> ApodDTO:
         """Retrieve information about the astronomy picture of the day."""
-        nasa_client = NasaOpenApiClient(AstronomyPictureHandler())
+        nasa_client = NasaOpenApiClient()
 
-        apod_info = nasa_client.astronomy_picture_of_the_day()
+        apod_info = nasa_client.apod.retrieve_endpoint_data()
 
         return self.apod_data_to_dto(apod_info)
 
-    def geomagnetic_storm_data(self, date_dto: DateDto) -> list[GstDto]:
-        """Retrieve information about geomagnetic storm data."""
-        nasa_client = NasaOpenApiClient(GeomagneticStormHandler())
+    def interplanetary_shock_data(self, date_dto: DateDto) -> list[IPSDto]:
+        """Retrieve information about interplanetary shock data."""
+        nasa_client = NasaOpenApiClient()
 
-        gst_info = nasa_client.geomagnetic_storm(date_dto)
-        gst_filter_info = self.filter_geomagnetic_storm_data(gst_info)
-        return self.gst_data_to_dto(gst_filter_info)
+        ips_info = nasa_client.ips.retrieve_endpoint_data(date_dto)
+        ips_filter_info = self.filter_interplanetary_shock_data(ips_info)
+        return self.ips_data_to_dto(ips_filter_info)
 
-    def filter_geomagnetic_storm_data(self, gst_info: dict) -> list:
-        """Filter geomagnetic storm data."""
+    def filter_interplanetary_shock_data(self, ips_info: dict) -> list:
+        """Filter interplanetary shock data."""
         filter_data = []
 
-        for entries_id, gst_element in enumerate(gst_info, start=1):
+        for entries_id, ips_element in enumerate(ips_info, start=1):
             item_data = {
                 'pk': entries_id,
-                'gst_id': gst_element.get('gstID'),
-                'link': gst_element.get('link'),
-                'kp_index': gst_element.get('allKpIndex')[0]['kpIndex'],
+                'activity_id': ips_element.get('activityID'),
+                'location': ips_element.get('location'),
+                'link': ips_element.get('link'),
             }
 
             filter_data.append(item_data)
         return filter_data
 
-    def gst_data_to_dto(self, gst_filter_info: list) -> list[GstDto]:
-        """Convert geomagnetic storm information into a list of GstDto objects."""
-        gst_dto_list = []
-        for gst_data in gst_filter_info:
-            gst_dto_list.append(GstDto(
-                id=gst_data.get('pk'),
-                gst_id=gst_data.get('gst_id'),
-                link=gst_data.get('link'),
-                kp_index=gst_data.get('kp_index'),
+    def ips_data_to_dto(self, ips_filter_info: list) -> list[IPSDto]:
+        """Convert interplanetary shock information into a list of IPSDto objects."""
+        ips_dto_list = []
+        for ips_data in ips_filter_info:
+            ips_dto_list.append(IPSDto(
+                id=ips_data.get('pk'),
+                activity_id=ips_data.get('activity_id'),
+                location=ips_data.get('location'),
+                link=ips_data.get('link'),
             ))
-        return gst_dto_list
+        return ips_dto_list
 
     def apod_data_to_dto(self, apod_info: dict) -> ApodDTO:
         """Convert the astronomy picture of the day information into a ApodDTO objects."""
